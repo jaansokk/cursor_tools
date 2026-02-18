@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+*.swp
+*.swo
+.idea/
+*.iml
+
+# Env
+.env
+.env.local
+.env.*.local
