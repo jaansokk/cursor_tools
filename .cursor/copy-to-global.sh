@@ -18,7 +18,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 CURSOR_DIR="${SCRIPT_DIR}"
 GLOBAL_DIR="${HOME}/.cursor"
-SKILLS_GLOBAL="${GLOBAL_DIR}/skills-cursor"
+SKILLS_GLOBAL="${GLOBAL_DIR}/skills"
 
 copy_agents() {
   echo "Copying agents..."
@@ -30,7 +30,7 @@ copy_agents() {
     # Update skill paths in engineer agent for global use
     if [ "$name" = "engineer.md" ]; then
       tmp=$(mktemp)
-      sed 's|\.cursor/skills/|~/.cursor/skills-cursor/|g' "${GLOBAL_DIR}/agents/${name}" > "$tmp"
+      sed 's|\.cursor/skills/|~/.cursor/skills/|g' "${GLOBAL_DIR}/agents/${name}" > "$tmp"
       mv "$tmp" "${GLOBAL_DIR}/agents/${name}"
     fi
   done
