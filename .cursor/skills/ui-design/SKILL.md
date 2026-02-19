@@ -128,7 +128,11 @@ Run these against your output before presenting:
 
 - **The swap test:** If you swapped the typeface for Inter, would anyone notice? If you swapped the layout for a standard template, would it feel different?
 
-- **The squint test:** Blur your eyes. Can you still perceive hierarchy? Is anything jumping out harshly? Craft whispers, it does not shout.
+- **The squint test:** Blur your eyes. Can you still perceive hierarchy? Is anything jumping out harshly?
+
+- **The contrast test:** Take a screenshot and view it at 50% zoom. Can you still distinguish every card from its background? Can you read every text element? If any boundary disappears or any text blurs into its surface — raise the contrast. This is the most common AI failure mode.
+
+- **The arm's-length test:** Imagine viewing this on a cheap office monitor at arm's length. Borders at `white/5`, text at `stone-400` on `white` — these vanish. If it only looks good on a retina display at close range, it fails.
 
 - **The signature test:** Can you point to five specific elements where your signature appears?
 
@@ -140,27 +144,58 @@ Run these against your output before presenting:
 
 # Craft Foundations
 
-## Subtle Layering
+## Layering & Contrast
 
-This is the backbone of craft. Study Vercel, Supabase, Linear.
+This is the backbone of craft. Study Vercel, Supabase, Linear — but do not confuse subtlety with invisibility.
 
-**Surfaces must be barely different but still distinguishable.** Not dramatic jumps. Not obviously different colors. Whisper-quiet shifts.
+**Surfaces must be distinguishable at arm's length on a non-retina display.** Quiet, not silent. If you squint and two surfaces merge, you've gone too far.
 
-**Borders must be light but not invisible.** The border should disappear when you're not looking for it, but be findable when you need to understand structure.
+**Borders must be visible without hunting.** A user glancing at the interface should perceive structure. Borders do not need to shout, but they must register.
+
+### Light Mode
+
+Light mode contrast is deceptive — white-on-near-white is the most common failure. Use named palette steps, not raw opacity on black.
 
 ```html
-<!-- Subtle surface elevation with Tailwind -->
-<div class="bg-slate-950">                    <!-- Level 0: Base -->
-  <div class="bg-slate-900/50">               <!-- Level 1: Cards -->
-    <div class="bg-slate-800/30">             <!-- Level 2: Elevated -->
+<!-- Light mode surfaces -->
+<div class="bg-stone-50">                          <!-- Level 0: Canvas -->
+  <div class="bg-white border border-stone-200/60 shadow-sm">  <!-- Level 1: Cards -->
+    <div class="bg-stone-50">                      <!-- Level 2: Inset/nested -->
     </div>
   </div>
 </div>
 
-<!-- Subtle borders -->
-<div class="border border-white/5">           <!-- Dark mode -->
-<div class="border border-black/5">           <!-- Light mode -->
+<!-- Light mode borders — minimum thresholds -->
+<div class="border border-stone-200/60">           <!-- Subtle (floor) -->
+<div class="border border-stone-200">              <!-- Default -->
+<div class="border border-stone-300">              <!-- Strong / hover -->
 ```
+
+### Dark Mode
+
+In dark mode, use opacity on white — but never below `/8` for any visible boundary.
+
+```html
+<!-- Dark mode surfaces -->
+<div class="bg-slate-950">                         <!-- Level 0: Base -->
+  <div class="bg-slate-900/70">                    <!-- Level 1: Cards -->
+    <div class="bg-slate-800/50">                  <!-- Level 2: Elevated -->
+    </div>
+  </div>
+</div>
+
+<!-- Dark mode borders — minimum thresholds -->
+<div class="border border-white/8">                <!-- Subtle (floor) -->
+<div class="border border-white/15">               <!-- Default -->
+<div class="border border-white/25">               <!-- Strong / hover -->
+```
+
+### The Contrast Floor
+
+These are non-negotiable minimums, not targets:
+- **Borders:** Must be visible without pixel-peeping. `border-white/5` and `border-black/5` are effectively invisible on most displays — never use them.
+- **Surface steps:** Adjacent elevation levels must differ by enough that a screenshot at 50% zoom still shows the boundary.
+- **Text on surfaces:** Every text token must pass WCAG AA (4.5:1) against its background. Muted/caption text at `stone-500` on `white` is the floor for light mode.
 
 ## Infinite Expression
 
@@ -180,6 +215,36 @@ Every product exists in a world. That world has colors.
 Before you reach for a Tailwind palette, spend time in the product's world. What would you see if you walked into the physical version of this space?
 
 **Beyond Warm and Cold:** Is this quiet or loud? Dense or spacious? Serious or playful? Geometric or organic?
+
+## Data-Dense Contexts
+
+Dashboards, tables, analytics, trading interfaces — these need **more** contrast, not less. When information density is high, subtle layering works against the user.
+
+**Raise contrast when:**
+- Multiple data blocks compete for attention on one screen
+- Tables have many rows/columns — row borders and alternating backgrounds must be clearly visible
+- Small text (captions, labels, axis ticks) sits on colored or tinted backgrounds
+- Charts sit inside cards that sit on a canvas — three elevation levels need three distinct steps
+
+**Practical rules for dense UIs:**
+- Card borders: use named palette steps (`stone-200`, `stone-300`) not raw opacity
+- Table dividers: `divide-stone-100` minimum, `divide-stone-200` for busy tables
+- Context bars / toolbars: `bg-stone-200/40` with `border-stone-300/40` — distinctly different from both canvas and cards
+- Numbers and data: monospace, `tabular-nums`, and sufficient weight to read at small sizes
+
+The "whisper-quiet" philosophy applies to marketing sites and reading apps. Data tools need structure you can see.
+
+## Font Alternatives
+
+The skill says no Inter, no Roboto. Here are distinctive alternatives by category:
+
+**Geometric / Clean:** Satoshi, General Sans, Outfit, Plus Jakarta Sans, Switzer
+**Humanist / Warm:** Manrope, Source Sans 3, Nunito Sans, Atkinson Hyperlegible
+**Technical / Precise:** JetBrains Mono (data), IBM Plex Sans, DM Sans, Geist
+**Editorial / Expressive:** Fraunces, Newsreader, Literata, Instrument Serif
+**Display / Distinctive:** Cabinet Grotesk, Clash Display, Zodiak, Erode
+
+Pick based on the product's feel, not "what looks nice." A bakery management tool might use Nunito Sans. A trading terminal might use DM Sans + JetBrains Mono. An architecture portfolio might use another font.
 
 ---
 
@@ -202,8 +267,8 @@ module.exports = {
         },
         ink: {
           primary: 'oklch(95% 0 0)',
-          secondary: 'oklch(70% 0 0)',
-          muted: 'oklch(50% 0 0)',
+          secondary: 'oklch(75% 0 0)',
+          muted: 'oklch(55% 0 0)',
         },
         brand: {
           DEFAULT: 'oklch(65% 0.2 145)',
@@ -252,7 +317,7 @@ module.exports = {
 ```jsx
 const BUTTON_VARIANTS = {
   primary: "bg-brand hover:bg-brand/90 text-white",
-  secondary: "bg-surface-elevated hover:bg-surface-overlay text-ink-primary border border-white/10",
+  secondary: "bg-surface-elevated hover:bg-surface-overlay text-ink-primary border border-white/15",
   danger: "bg-semantic-error hover:bg-semantic-error/90 text-white",
 };
 ```
@@ -269,8 +334,8 @@ Keep utility classes organized by category:
   w-full max-w-2xl
   text-sm font-medium
   bg-surface-elevated text-ink-primary
-  rounded-lg border border-white/5
-  hover:border-white/10 transition-colors
+  rounded-lg border border-white/15
+  hover:border-white/25 transition-colors
 ">
 ```
 
@@ -389,7 +454,7 @@ A design system should capture:
 - Depth strategy (borders vs shadows)
 - Animation conventions
 
-See `references/design-system-template.md` for the full template.
+See `templates/design-system.md` for the full template.
 
 ---
 
@@ -455,15 +520,17 @@ If yes, create a design system file with:
 
 - **Generic fonts:** Inter, Roboto, Arial, system fonts without purpose
 - **Cliché color schemes:** Purple gradients on white, generic blue CTAs
-- **Harsh borders:** If borders are the first thing you see, they're too strong
-- **Dramatic surface jumps:** Elevation changes should be whisper-quiet
+- **Invisible borders:** `border-white/5`, `border-black/5` are invisible on most displays. The floor is `/8` dark mode, `stone-200/60` light mode
+- **Invisible elevation:** If cards don't visually separate from canvas in a 50%-zoom screenshot, contrast is too low
+- **Dramatic surface jumps:** Elevation changes should be calm but perceptible — not whisper-quiet to the point of vanishing
 - **Inconsistent spacing:** Random Tailwind values like `p-[13px] mt-[7px]`
-- **Mixed depth strategies:** Pick borders OR shadows, not both randomly
+- **Random depth mixing:** Combining border + shadow intentionally is fine. Randomly switching between borders-only, shadows-only, and combined across similar elements is not
 - **Missing states:** hover, focus, disabled, loading, error
 - **Large radius on small elements**
 - **Pure white cards on colored backgrounds**
 - **Multiple accent colors:** Dilutes focus
 - **Overusing @apply:** Defeats Tailwind's purpose
+- **Muted text that fails WCAG:** `stone-400` on `white` fails AA. `stone-500` is the floor for muted text on white backgrounds
 
 ---
 

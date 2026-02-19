@@ -34,84 +34,139 @@ Level 4: Highest elevation (rare)
 
 In dark mode, higher elevation = slightly lighter. In light mode, higher elevation = slightly lighter or uses shadow.
 
-### The Subtlety Principle
+### The Contrast Principle
 
-This is where most interfaces fail. Study Vercel, Supabase, Linear—their surfaces are **barely different** but still distinguishable. Their borders are **light but not invisible**.
+This is where most AI-generated interfaces fail — in both directions. Study Vercel, Supabase, Linear: their surfaces are calm but **clearly distinguishable**. Their borders are quiet but **visible without hunting**.
 
-**For surfaces:** The difference between elevation levels should be subtle—a few percentage points of lightness, not dramatic jumps. In dark mode:
+**The rule:** Subtle does not mean invisible. Every boundary must be perceivable on a non-retina display at arm's length. If you have to pixel-peep to find it, it's too subtle.
+
+**For dark mode surfaces:**
 
 ```css
-/* Tailwind dark mode surfaces */
-.surface-base { @apply bg-slate-950; }           /* ~3% lightness */
-.surface-elevated { @apply bg-slate-900/50; }    /* ~7% lightness */
-.surface-overlay { @apply bg-slate-800/30; }     /* ~12% lightness */
+/* Tailwind dark mode surfaces — note higher opacity than naive defaults */
+.surface-base { @apply bg-slate-950; }
+.surface-elevated { @apply bg-slate-900/70; }     /* clearly lifted */
+.surface-overlay { @apply bg-slate-800/50; }       /* distinct from elevated */
 ```
 
-**For borders:** Use low opacity values:
+**For light mode surfaces:**
 
 ```html
-<!-- Dark mode borders -->
-<div class="border border-white/5">   <!-- Subtle -->
-<div class="border border-white/10">  <!-- Default -->
-<div class="border border-white/20">  <!-- Strong -->
-
-<!-- Light mode borders -->
-<div class="border border-black/5">   <!-- Subtle -->
-<div class="border border-black/10">  <!-- Default -->
+<!-- Light mode uses named palette steps, not raw opacity -->
+<div class="bg-stone-50">                                          <!-- Canvas -->
+  <div class="bg-white border border-stone-200/60 shadow-sm">     <!-- Card -->
+    <div class="bg-stone-50">                                      <!-- Nested/inset -->
+    </div>
+  </div>
+</div>
 ```
 
-**The test:** Squint at your interface. You should still perceive hierarchy—what's above what, where regions begin and end. But no single border or surface should jump out.
+**For dark mode borders — minimum thresholds:**
+
+```html
+<div class="border border-white/8">    <!-- Subtle (absolute floor) -->
+<div class="border border-white/15">   <!-- Default -->
+<div class="border border-white/25">   <!-- Strong / hover -->
+```
+
+**For light mode borders — minimum thresholds:**
+
+```html
+<div class="border border-stone-200/60">  <!-- Subtle (floor) -->
+<div class="border border-stone-200">     <!-- Default -->
+<div class="border border-stone-300">     <!-- Strong / hover -->
+```
+
+**The test:** Take a screenshot and view it at 50% zoom. Can you still distinguish every elevation level? Can you see where cards end and canvas begins? If any boundary vanishes — raise the contrast.
 
 ### Common AI Mistakes
 
-- Borders that are too visible (`border-gray-700` instead of `border-white/5`)
-- Surface jumps that are too dramatic (going from `slate-950` to `slate-700`)
-- Using different hues for different surfaces
-- Harsh dividers where subtle borders would do
+- **Too subtle:** `border-white/5`, `border-black/5` are invisible on most displays. Never use them.
+- **Too subtle (surfaces):** `bg-slate-900/50` on `bg-slate-950` is nearly invisible. Use `/70` minimum.
+- **Too dramatic:** Going from `slate-950` to `slate-700` in one step. Build graduated levels.
+- **Using raw opacity on named colors in light mode:** `border-black/10` is less predictable than `border-stone-200`. Prefer named palette steps in light mode.
+- **Different hues for different surfaces:** Keep surfaces on the same hue axis.
+- **Muted text that fails WCAG:** `stone-400` on `white` fails AA (3.6:1). `stone-500` is the floor (4.6:1).
 
 ---
 
 ## Text Hierarchy via Tokens
 
-Build four distinct levels:
+Build four distinct levels. Every level must pass WCAG AA (4.5:1) against its background except disabled/placeholder states.
+
+**Dark mode (on ~slate-950 background):**
 
 ```html
 <!-- Primary: Default text, highest contrast -->
 <p class="text-slate-100">Main content</p>
 
-<!-- Secondary: Supporting text, slightly muted -->
+<!-- Secondary: Supporting text, clearly readable -->
 <p class="text-slate-300">Supporting info</p>
 
-<!-- Tertiary: Metadata, timestamps -->
+<!-- Tertiary: Metadata, timestamps — still readable -->
 <span class="text-slate-400">2 hours ago</span>
 
-<!-- Muted: Disabled, placeholder -->
+<!-- Muted: Disabled, placeholder only -->
 <span class="text-slate-500">Placeholder</span>
 ```
 
-Use all four consistently. If you're only using two, your hierarchy is too flat.
+**Light mode (on white/stone-50 background):**
+
+```html
+<!-- Primary: Headings, key data -->
+<p class="text-stone-900">Main content</p>
+
+<!-- Secondary: Body text, table cells -->
+<p class="text-stone-600">Supporting info</p>
+
+<!-- Tertiary: Captions, metadata — floor for readable text -->
+<span class="text-stone-500">2 hours ago</span>
+
+<!-- Muted: Disabled, placeholder only — does NOT pass AA -->
+<span class="text-stone-400">Placeholder</span>
+```
+
+Use all four consistently. If you're only using two, your hierarchy is too flat. If your "muted" text is unreadable, you've gone too far — `stone-500` / `slate-400` is the floor for text that users need to read.
 
 ---
 
 ## Border Progression
 
-Borders aren't binary. Build a scale:
+Borders aren't binary. Build a scale — but never start below the visibility floor.
+
+**Dark mode:**
 
 ```html
-<!-- Subtle: Soft separation -->
-<div class="border border-white/5">
+<!-- Subtle: Soft separation (floor) -->
+<div class="border border-white/8">
 
 <!-- Default: Standard borders -->
-<div class="border border-white/10">
+<div class="border border-white/15">
 
 <!-- Strong: Emphasis, hover states -->
-<div class="border border-white/20">
+<div class="border border-white/25">
 
 <!-- Stronger: Focus rings -->
 <div class="ring-2 ring-brand/50">
 ```
 
-Match border intensity to the importance of the boundary.
+**Light mode:**
+
+```html
+<!-- Subtle: Soft separation (floor) -->
+<div class="border border-stone-200/60">
+
+<!-- Default: Standard borders -->
+<div class="border border-stone-200">
+
+<!-- Strong: Emphasis, hover states -->
+<div class="border border-stone-300">
+
+<!-- Stronger: Focus rings -->
+<div class="ring-2 ring-brand/50">
+```
+
+Match border intensity to the importance of the boundary. In light mode, prefer named palette steps over opacity on black — they produce more predictable, warmer results.
 
 ---
 
@@ -171,17 +226,40 @@ Consistency matters more than the specific value. Don't mix sharp and soft rando
 
 ## Depth & Elevation Strategy
 
-Match depth approach to design direction. Choose ONE and commit:
+Pick a primary strategy and use it consistently. Combining border + shadow (e.g. `border-stone-200/60 shadow-sm`) is fine when both serve a purpose — border defines the edge, shadow provides lift. What to avoid is *random* mixing where some cards have borders, others have shadows, others have both, with no logic.
 
 ### Borders-Only (Flat)
 
 Clean, technical, dense. For utility-focused tools where information density matters.
 
 ```html
-<div class="border border-white/10 rounded-lg">
+<div class="border border-white/15 rounded-lg">
   <!-- No shadows, just borders -->
 </div>
 ```
+
+### Borderless (Shadows + Spacing)
+
+Minimal, editorial, calm. Relies on shadow and whitespace alone to define structure — no visible border lines.
+
+```html
+<div class="bg-white shadow-sm rounded-xl p-6">
+  <!-- On a bg-stone-50 canvas — shadow + color contrast defines the card -->
+</div>
+```
+
+**Works well for:**
+- Content-focused layouts, portfolios, marketing pages
+- Interfaces with few elevation levels (canvas + cards, 2 levels max)
+- Editorial / reading-app aesthetics where borders feel heavy
+
+**Breaks down when:**
+- **Data-dense UIs** — dashboards, tables, admin panels. When 4+ cards sit in a grid, shadows alone can't disambiguate adjacent elements.
+- **Adjacent same-color surfaces** — two white cards side by side with only `shadow-sm` produces ambiguous overlapping shadows. Borders solve this.
+- **Tables** — row separation without borders or `divide-*` rules forces alternating row colors, limiting palette flexibility.
+- **Dark mode** — shadows are nearly invisible on dark backgrounds. Borderless dark mode drifts into flat soup.
+- **Small/dense elements** — chips, badges, input groups, filter pills. At small sizes `shadow-sm` is imperceptible. These need borders or strong background contrast.
+- **3+ elevation levels** — canvas → card → dropdown → nested dropdown. Shadow stacking gets visually muddy past 2 levels.
 
 ### Subtle Single Shadows
 
@@ -209,6 +287,16 @@ Rich, premium, dimensional. For cards that need presence.
         0 4px 8px rgba(0, 0, 0, 0.02);
     }
   </style>
+</div>
+```
+
+### Border + Shadow (Combined)
+
+The practical middle ground most polished products land on. Border defines the edge precisely, shadow provides depth. Common in data-heavy apps.
+
+```html
+<!-- Light mode — border for structure, shadow for lift -->
+<div class="bg-white border border-stone-200/60 shadow-sm rounded-xl p-6">
 </div>
 ```
 
@@ -355,6 +443,60 @@ Dark interfaces have different needs:
 
 ---
 
+## Light Mode Specifics
+
+Light mode has its own contrast traps — different from dark mode.
+
+**White-on-near-white is the #1 failure.** A `bg-white` card on a `bg-gray-50` canvas with `border-black/5` is effectively invisible. Use visible borders (`stone-200/60` minimum) or combine with `shadow-sm`.
+
+**Named palette steps over raw opacity.** In light mode, `border-stone-200` is more predictable and warmer than `border-black/10`. Raw opacity on black produces cold, harsh results at higher values and invisible results at lower values.
+
+**Practical light-mode elevation stack:**
+
+```html
+<!-- Canvas -->
+<div class="bg-stone-50">
+
+  <!-- Context bar / toolbar -->
+  <div class="bg-stone-200/40 border border-stone-300/40">
+
+  <!-- Cards -->
+  <div class="bg-white border border-stone-200/60 shadow-sm rounded-xl">
+
+    <!-- Inset / nested surfaces -->
+    <div class="bg-stone-50 rounded-lg">
+```
+
+**Text contrast in light mode:**
+- `stone-900` for headings and primary text
+- `stone-700` for CTA buttons, bold labels
+- `stone-600` for secondary body text
+- `stone-500` for captions, metadata (WCAG AA floor on white)
+- `stone-400` only for disabled/placeholder (fails AA — intentional)
+
+---
+
+## Data-Dense Contexts
+
+Dashboards, analytics, trading tools, and admin panels need **higher contrast** than marketing sites or reading apps.
+
+**Why:** When multiple data blocks, tables, and charts compete for attention on one screen, the user relies on visible structure to parse information quickly. "Whisper-quiet" layering makes data tools feel washed-out and hard to navigate.
+
+**Raise contrast when:**
+- Multiple cards/blocks sit on the same canvas
+- Tables have many rows and columns
+- Small text (axis labels, captions, data cells) sits on tinted backgrounds
+- Three or more elevation levels are visible simultaneously
+
+**Practical rules:**
+- Card borders: named palette steps (`stone-200`, not `black/5`)
+- Table row dividers: `divide-stone-100` minimum, `divide-stone-200` for busy tables
+- Table header borders: `border-stone-200` — clearly stronger than row dividers
+- Context bars: distinctly different from both canvas and card surfaces
+- Chart containers: visible card boundary so chart data doesn't float
+
+---
+
 ## Custom Form Controls
 
 **Never use native form elements for styled UI.** Native `<select>`, `<input type="date">` render OS-native dropdowns that cannot be styled.
@@ -367,7 +509,7 @@ Build custom:
 ```html
 <!-- Custom select trigger -->
 <button class="inline-flex items-center justify-between gap-2 px-3 h-9 w-full
-               text-sm bg-surface-elevated border border-white/10 rounded-md
+               text-sm bg-surface-elevated border border-white/15 rounded-md
                hover:bg-surface-overlay transition-colors">
   <span class="truncate">Selected value</span>
   <ChevronDownIcon class="w-4 h-4 text-ink-muted shrink-0" />

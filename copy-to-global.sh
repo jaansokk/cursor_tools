@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #
 # Copy Cursor tools from this project to ~/.cursor for global use.
-# Run from project root or .cursor directory.
+# Run from project root.
 #
 # Usage:
 #   ./copy-to-global.sh           # copy all (agents, skills, rules, commands)
@@ -16,7 +16,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CURSOR_DIR="${SCRIPT_DIR}"
+CURSOR_DIR="${SCRIPT_DIR}/.cursor"
 GLOBAL_DIR="${HOME}/.cursor"
 SKILLS_GLOBAL="${GLOBAL_DIR}/skills"
 

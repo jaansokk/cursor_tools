@@ -30,8 +30,8 @@ module.exports = {
       },
       ink: {
         primary: 'oklch(95% 0 0)',
-        secondary: 'oklch(70% 0 0)',
-        muted: 'oklch(50% 0 0)',
+        secondary: 'oklch(75% 0 0)',
+        muted: 'oklch(55% 0 0)',
       },
       brand: {
         DEFAULT: 'oklch(65% 0.2 145)',
@@ -152,7 +152,7 @@ Define variants for consistent component styling:
 ```jsx
 const BUTTON_VARIANTS = {
   primary: "bg-brand hover:bg-brand-hover text-white",
-  secondary: "bg-surface-elevated hover:bg-surface-overlay text-ink-primary border border-white/10",
+  secondary: "bg-surface-elevated hover:bg-surface-overlay text-ink-primary border border-white/15",
   ghost: "hover:bg-surface-elevated text-ink-secondary",
   danger: "bg-semantic-error hover:bg-semantic-error/90 text-white",
 };
@@ -327,21 +327,42 @@ theme: {
 ### Card
 
 ```html
-<div class="bg-surface-elevated rounded-lg border border-white/5 p-6 shadow-sm">
+<!-- Dark mode -->
+<div class="bg-surface-elevated rounded-lg border border-white/15 p-6">
   <h3 class="text-lg font-semibold text-ink-primary">Title</h3>
   <p class="mt-2 text-sm text-ink-secondary">Description</p>
+</div>
+
+<!-- Light mode -->
+<div class="bg-white rounded-xl border border-stone-200/60 shadow-sm p-6">
+  <h3 class="text-lg font-semibold text-stone-900">Title</h3>
+  <p class="mt-2 text-sm text-stone-600">Description</p>
 </div>
 ```
 
 ### Input
 
 ```html
+<!-- Dark mode -->
 <input 
   type="text"
   class="
     w-full h-10 px-3
     text-sm text-ink-primary placeholder:text-ink-muted
-    bg-surface-base border border-white/10 rounded-md
+    bg-surface-base border border-white/15 rounded-md
+    focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand
+    transition-colors
+  "
+  placeholder="Enter text..."
+/>
+
+<!-- Light mode -->
+<input 
+  type="text"
+  class="
+    w-full h-10 px-3
+    text-sm text-stone-900 placeholder:text-stone-400
+    bg-white border border-stone-200 rounded-md
     focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand
     transition-colors
   "
@@ -360,16 +381,32 @@ theme: {
 ### Dropdown Trigger
 
 ```html
+<!-- Dark mode -->
 <button class="
   inline-flex items-center justify-between
   gap-2 px-3 h-9
   text-sm text-ink-primary
-  bg-surface-elevated border border-white/10 rounded-md
+  bg-surface-elevated border border-white/15 rounded-md
   hover:bg-surface-overlay
   transition-colors
 ">
   <span class="truncate">Select option</span>
   <svg class="w-4 h-4 text-ink-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+
+<!-- Light mode -->
+<button class="
+  inline-flex items-center justify-between
+  gap-2 px-3 h-9
+  text-sm text-stone-900
+  bg-white border border-stone-200 rounded-md
+  hover:bg-stone-50 hover:border-stone-300
+  transition-colors
+">
+  <span class="truncate">Select option</span>
+  <svg class="w-4 h-4 text-stone-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
   </svg>
 </button>
