@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(du -sh /Users/jaansokk_1/Documents/_proj/constr_project_validator/examples/*)",
+      "Bash(find /Users/jaansokk_1/Documents/_proj/constr_project_validator -type f -exec ls -lh {} ;)",
+      "Read(//Users/jaansokk_1/Documents/_proj/constr_project_validator/**)"
+    ]
+  }
+}
