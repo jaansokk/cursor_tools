@@ -1,0 +1,153 @@
+---
+name: code-review-codex
+description: >
+  Run a read-only code review using OpenAI Codex CLI (codex-5.3, xhigh reasoning).
+  This is a final-gate review after a task is complete — no edits, just a findings report.
+  Defaults to uncommitted changes; pass a branch name to review the diff against it.
+  Use when the user says "review", "check my code", "final review", "sanity check",
+  or when a coding task has just been completed and needs a quality gate before commit.
+disable-model-invocation: true
+---
+
+# Code Review via Codex CLI
+
+A **read-only, post-implementation review** that uses OpenAI Codex CLI as an independent second opinion. This runs after a task is finalized — the goal is to catch real issues before commit, not to make edits.
+
+## When to use
+
+- After completing a feature, fix, or refactor — as the last step before committing
+- When you want an independent model (Codex) to sanity-check changes
+- For security or correctness confidence on sensitive code paths
+
+## Behavior
+
+- **Read-only**: Codex reviews and reports. No files are modified.
+- **Report back**: Output is returned to Claude as structured findings for the user to triage.
+- **Skip noise**: No style nits, no formatting opinions, no "consider renaming" suggestions.
+
+## Steps
+
+1. **Determine scope** from `$ARGUMENTS`:
+   - No arguments → review uncommitted changes (`--uncommitted`)
+   - Branch name (e.g. `main`) → review diff against that branch (`--base <branch>`)
+
+2. **Run the Codex review**:
+
+### Uncommitted changes (default):
+
+```bash
+codex review \
+  -c model='"codex-5.3"' \
+  -c model_reasoning_effort='"xhigh"' \
+  --uncommitted \
+  "You are a senior engineer doing a final gate review on code that is about to be committed. This is post-implementation — the work is done, you are looking for real problems only.
+
+Review ONLY for issues that would cause bugs, outages, security incidents, or serious perf regressions in production. Ignore style, naming, formatting, and minor code smells.
+
+## Review checklist
+
+### 1. Correctness
+- Logic errors: wrong conditions, off-by-one, inverted checks, unreachable branches
+- State bugs: stale closures, race conditions, mutations of shared state
+- Null/undefined access, unhandled promise rejections, uncaught exceptions
+- Incorrect API usage or wrong assumptions about library behavior
+- Edge cases: empty inputs, boundary values, concurrent access
+
+### 2. Security
+- Injection vectors: SQL, XSS, command injection, path traversal
+- Auth/authz gaps: missing permission checks, broken access control
+- Secrets or credentials in code, logs, or error messages
+- Insecure defaults: permissive CORS, disabled CSRF, weak crypto
+- User input flowing unsanitized to sensitive sinks
+
+### 3. Data integrity
+- Missing or incorrect validation at system boundaries (API inputs, DB writes, file I/O)
+- Silent data loss: swallowed errors, ignored return values, dropped events
+- Inconsistent state from partial failures (no transaction, no rollback)
+
+### 4. Performance (only if clearly problematic)
+- N+1 queries, unbounded loops over large datasets
+- Blocking calls in async/event-loop code
+- Missing pagination or limits on user-controlled queries
+- Obvious memory leaks (growing caches, unclosed resources, dangling listeners)
+
+### 5. Robustness
+- Error handling: catch blocks that swallow context, missing retry/backoff on network calls
+- Missing timeouts on external calls (HTTP, DB, queues)
+- Failure modes that cascade (one failing dependency takes down everything)
+
+## Output format
+
+For each finding:
+- **Severity**: CRITICAL / HIGH / MEDIUM / LOW
+- **File:Line**: exact location
+- **What**: one-sentence description of the problem
+- **Why it matters**: what breaks or goes wrong in production
+- **Fix**: concrete code suggestion or approach (keep it short)
+
+Group findings by severity (CRITICAL first). If nothing significant is found, say so — a clean review is a valid outcome.
+
+End with a one-line verdict: PASS (ship it), PASS WITH NOTES (minor items), or BLOCK (must fix before commit)."
+```
+
+### Branch diff:
+
+```bash
+codex review \
+  -c model='"codex-5.3"' \
+  -c model_reasoning_effort='"xhigh"' \
+  --base <branch> \
+  "You are a senior engineer doing a final gate review on code that is about to be committed. This is post-implementation — the work is done, you are looking for real problems only.
+
+Review ONLY for issues that would cause bugs, outages, security incidents, or serious perf regressions in production. Ignore style, naming, formatting, and minor code smells.
+Use the context7 MCP to check documentation of libraries when needed.
+
+## Review checklist
+
+### 1. Correctness
+- Logic errors: wrong conditions, off-by-one, inverted checks, unreachable branches
+- State bugs: stale closures, race conditions, mutations of shared state
+- Null/undefined access, unhandled promise rejections, uncaught exceptions
+- Incorrect API usage or wrong assumptions about library behavior
+- Edge cases: empty inputs, boundary values, concurrent access
+
+### 2. Security
+- Injection vectors: SQL, XSS, command injection, path traversal
+- Auth/authz gaps: missing permission checks, broken access control
+- Secrets or credentials in code, logs, or error messages
+- Insecure defaults: permissive CORS, disabled CSRF, weak crypto
+- User input flowing unsanitized to sensitive sinks
+
+### 3. Data integrity
+- Missing or incorrect validation at system boundaries (API inputs, DB writes, file I/O)
+- Silent data loss: swallowed errors, ignored return values, dropped events
+- Inconsistent state from partial failures (no transaction, no rollback)
+
+### 4. Performance (only if clearly problematic)
+- N+1 queries, unbounded loops over large datasets
+- Blocking calls in async/event-loop code
+- Missing pagination or limits on user-controlled queries
+- Obvious memory leaks (growing caches, unclosed resources, dangling listeners)
+
+### 5. Robustness
+- Error handling: catch blocks that swallow context, missing retry/backoff on network calls
+- Missing timeouts on external calls (HTTP, DB, queues)
+- Failure modes that cascade (one failing dependency takes down everything)
+
+## Output format
+
+For each finding:
+- **Severity**: CRITICAL / HIGH / MEDIUM / LOW
+- **File:Line**: exact location
+- **What**: one-sentence description of the problem
+- **Why it matters**: what breaks or goes wrong in production
+- **Fix**: concrete code suggestion or approach (keep it short)
+
+Group findings by severity (CRITICAL first). If nothing significant is found, say so — a clean review is a valid outcome.
+
+End with a one-line verdict: PASS (ship it), PASS WITH NOTES (minor items), or BLOCK (must fix before commit)."
+```
+
+3. **Present the review output** to the user exactly as returned. Do not edit, summarize, or reformat the findings.
+
+$ARGUMENTS

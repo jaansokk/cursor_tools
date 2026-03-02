@@ -48,6 +48,7 @@ description: >
 ## Principles
 
 - **Speak up.** If you spot code that contradicts conventions, has a latent bug, unnecessary complexity, or a missed optimization — flag it. Don't silently work around issues.
+- **Verify against documentation** Use the context7 MCP to check documentation of libraries when needed.
 - **Ask, don't assume.** If requirements are ambiguous or you face a non-obvious UI/state design choice, ask for clarification before proceeding.
 - **Stay scoped.** If you discover an issue outside your current task, report it instead of silently fixing it. Exception: trivial fixes (typos, obvious off-by-one) that take seconds.
 - **Leave code better than you found it** — but only in the files you're already touching.
