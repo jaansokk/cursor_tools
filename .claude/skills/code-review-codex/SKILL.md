@@ -31,18 +31,23 @@ A **read-only, post-implementation review** that uses OpenAI Codex CLI as an ind
    - No arguments → review uncommitted changes (`--uncommitted`)
    - Branch name (e.g. `main`) → review diff against that branch (`--base <branch>`)
 
-2. **Run the Codex review**:
+2. **Run the Codex review** using `codex exec` (supports full prompt alongside diff scope):
 
 ### Uncommitted changes (default):
 
 ```bash
-codex review \
-  -c model='"codex-5.3"' \
+codex exec \
+  -m codex-5.3 \
   -c model_reasoning_effort='"xhigh"' \
-  --uncommitted \
+  -s read-only \
+  --ephemeral \
+  -o /tmp/code-review-output.md \
   "You are a senior engineer doing a final gate review on code that is about to be committed. This is post-implementation — the work is done, you are looking for real problems only.
 
+Start by running: git diff HEAD to see all uncommitted changes (staged and unstaged). Also run git status to catch untracked files that may be relevant.
+
 Review ONLY for issues that would cause bugs, outages, security incidents, or serious perf regressions in production. Ignore style, naming, formatting, and minor code smells.
+Use the context7 MCP to check documentation of libraries when needed.
 
 ## Review checklist
 
@@ -93,11 +98,15 @@ End with a one-line verdict: PASS (ship it), PASS WITH NOTES (minor items), or B
 ### Branch diff:
 
 ```bash
-codex review \
-  -c model='"codex-5.3"' \
+codex exec \
+  -m codex-5.3 \
   -c model_reasoning_effort='"xhigh"' \
-  --base <branch> \
+  -s read-only \
+  --ephemeral \
+  -o /tmp/code-review-output.md \
   "You are a senior engineer doing a final gate review on code that is about to be committed. This is post-implementation — the work is done, you are looking for real problems only.
+
+Start by running: git diff <branch>...HEAD to see all changes on this branch relative to <branch>. Also run git log <branch>..HEAD --oneline to understand the commit scope.
 
 Review ONLY for issues that would cause bugs, outages, security incidents, or serious perf regressions in production. Ignore style, naming, formatting, and minor code smells.
 Use the context7 MCP to check documentation of libraries when needed.

@@ -1,9 +1,57 @@
 {
   "permissions": {
     "allow": [
-      "Bash(du -sh /Users/jaansokk_1/Documents/_proj/constr_project_validator/examples/*)",
-      "Bash(find /Users/jaansokk_1/Documents/_proj/constr_project_validator -type f -exec ls -lh {} ;)",
-      "Read(//Users/jaansokk_1/Documents/_proj/constr_project_validator/**)"
-    ]
-  }
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(pip *)",
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(find *)",
+      "Bash(mkdir *)",
+      "Bash(touch *)",
+      "Bash(echo *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(sed *)",
+      "Bash(mv *)",
+      "Bash(cp *)",
+      "Bash(chmod *)",
+      "Bash(make *)",
+      "Bash(bash *)",
+      "Bash(sh *)",
+      "Bash(pytest *)",
+      "Bash(source *)",
+      "Bash(which *)",
+      "Bash(brew *)",
+      "Bash(docker *)",
+      "Bash(uvicorn *)",
+      "Bash(vite *)",
+      "Edit",
+      "Read",
+      "Bash(codex --help)",
+      "Bash(codex --version)",
+      "Bash(codex review --help)",
+      "Bash(codex exec --help)",
+      "Read(//Users/jaansokk_1/.codex/**)",
+      "Bash(codex exec -m gpt-5.2 -c model_reasoning_effort='\"\"high\"\"' --ephemeral -s read-only \"echo hello\")",
+      "Bash(codex review -c model='\"\"codex-5.3\"\"' -c model_reasoning_effort='\"\"high\"\"' --uncommitted --help)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)*",
+      "Bash(sudo rm *)",
+      "Bash(rm -rf ~*)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | bash)",
+      "Bash(eval *)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "outputStyle": "default",
+  "prefersReducedMotion": true
 }
