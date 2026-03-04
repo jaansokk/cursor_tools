@@ -1,22 +1,17 @@
 ---
 name: code-review-codex
-description: >
-  Run a read-only code review using OpenAI Codex CLI (codex-5.3, xhigh reasoning).
-  This is a final-gate review after a task is complete — no edits, just a findings report.
-  Defaults to uncommitted changes; pass a branch name to review the diff against it.
-  Use when the user says "review", "check my code", "final review", "sanity check",
-  or when a coding task has just been completed and needs a quality gate before commit.
+description: Final-gate code review via Codex CLI (codex-5.3, xhigh). Finds bugs, security issues, and regressions before commit. No edits — findings report only.
 disable-model-invocation: true
 ---
 
 # Code Review via Codex CLI
 
-A **read-only, post-implementation review** that uses OpenAI Codex CLI as an independent second opinion. This runs after a task is finalized — the goal is to catch real issues before commit, not to make edits.
+A **read-only, post-implementation review** using OpenAI Codex CLI as an independent second opinion. The goal is to catch real issues before commit, not to make edits.
 
 ## When to use
 
 - After completing a feature, fix, or refactor — as the last step before committing
-- When you want an independent model (Codex) to sanity-check changes
+- When the user says "review", "check my code", "final review", or "sanity check"
 - For security or correctness confidence on sensitive code paths
 
 ## Behavior
@@ -37,7 +32,7 @@ A **read-only, post-implementation review** that uses OpenAI Codex CLI as an ind
 
 ```bash
 codex exec \
-  -m codex-5.3 \
+  -m gpt-5.3-codex \
   -c model_reasoning_effort='"xhigh"' \
   -s read-only \
   --ephemeral \
@@ -99,7 +94,7 @@ End with a one-line verdict: PASS (ship it), PASS WITH NOTES (minor items), or B
 
 ```bash
 codex exec \
-  -m codex-5.3 \
+  -m gpt-5.3-codex \
   -c model_reasoning_effort='"xhigh"' \
   -s read-only \
   --ephemeral \

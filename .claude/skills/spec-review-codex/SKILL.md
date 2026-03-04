@@ -1,23 +1,18 @@
 ---
 name: spec-review-codex
-description: >
-  Review project specs for internal conflicts, goal-vs-implementation drift, ambiguity,
-  and implementability gaps. Uses OpenAI Codex CLI with gpt-5.2 at xhigh reasoning effort.
-  Read-only — produces a findings report, no edits.
-  Use when the user says "review specs", "check specs", "spec review", "audit specs",
-  or after major spec changes to catch issues before implementation begins.
+description: Audit project specs for conflicts, goal drift, ambiguity, and gaps via Codex CLI (gpt-5.2, xhigh). Read-only findings report.
 disable-model-invocation: true
 ---
 
 # Spec Review via Codex CLI
 
-A **read-only review** of the project's `_specs/` directory using Codex as an independent reviewer. The goal is to surface problems that would cause confusion, rework, or wrong implementations — before engineering time is wasted.
+A **read-only audit** of the project's `_specs/` directory using Codex as an independent reviewer. The goal is to surface problems that would cause confusion, rework, or wrong implementations — before engineering time is wasted.
 
 ## When to use
 
 - After writing or significantly updating specs, before starting implementation
+- When the user says "review specs", "check specs", "spec review", or "audit specs"
 - Periodically as a health check when specs have grown organically
-- When onboarding to understand spec quality and gaps
 
 ## Behavior
 
