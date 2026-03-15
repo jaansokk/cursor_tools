@@ -1,21 +1,20 @@
 #!/usr/bin/env sh
 #
-# Copy Cursor tools from this project to ~/.cursor for global use.
-# Run from project root.
+# Sync Cursor tools from this project to ~/.cursor for global use.
 #
 # Usage:
-#   ./copy-to-global.sh           # copy all (agents, skills, rules, commands)
-#   ./copy-to-global.sh --all     # same
-#   ./copy-to-global.sh --agents  # copy only agents
-#   ./copy-to-global.sh --skills  # copy only skills
-#   ./copy-to-global.sh --rules   # copy only rules
-#   ./copy-to-global.sh --commands # copy only commands
-#   ./copy-to-global.sh --agents --skills  # copy multiple
+#   scripts/sync_cursor.sh           # sync all (agents, skills, rules, commands)
+#   scripts/sync_cursor.sh --all     # same
+#   scripts/sync_cursor.sh --agents  # sync only agents
+#   scripts/sync_cursor.sh --skills  # sync only skills
+#   scripts/sync_cursor.sh --rules   # sync only rules
+#   scripts/sync_cursor.sh --commands # sync only commands
+#   scripts/sync_cursor.sh --agents --skills  # sync multiple
 #
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CURSOR_DIR="${SCRIPT_DIR}/.cursor"
 GLOBAL_DIR="${HOME}/.cursor"
 SKILLS_GLOBAL="${GLOBAL_DIR}/skills"
@@ -82,11 +81,11 @@ for arg in "$@"; do
     --commands) DO_COMMANDS=true ;;
     -h|--help)
       echo "Usage: $0 [--all] [--agents] [--skills] [--rules] [--commands]"
-      echo "  --all      copy all (default when no args)"
-      echo "  --agents   copy only agents"
-      echo "  --skills   copy only skills"
-      echo "  --rules    copy only rules"
-      echo "  --commands copy only commands"
+      echo "  --all      sync all (default when no args)"
+      echo "  --agents   sync only agents"
+      echo "  --skills   sync only skills"
+      echo "  --rules    sync only rules"
+      echo "  --commands sync only commands"
       exit 0
       ;;
     *)

@@ -1,8 +1,6 @@
 ---
 name: python-dev
-description: >
-  Python backend conventions for this project. Use when implementing or modifying
-  API endpoints, database models/migrations, services, schemas, or backend tests.
+description: Python backend conventions for this project. Use when implementing or modifying API endpoints, database models/migrations, services, schemas, or backend tests.
 ---
 
 # Python Conventions

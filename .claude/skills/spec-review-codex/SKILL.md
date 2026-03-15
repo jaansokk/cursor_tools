@@ -31,7 +31,7 @@ A **read-only audit** of the project's `_specs/` directory using Codex as an ind
 
 ```bash
 codex exec \
-  -m gpt-5.2 \
+  -m gpt-5.4 \
   -c model_reasoning_effort='"xhigh"' \
   -s read-only \
   --ephemeral \

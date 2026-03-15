@@ -1,6 +1,6 @@
-# Cursor Tools
+# Cursor & Claude Tools
 
-A collection of Cursor **skills**, **agents**, **rules**, and **commands** for building with Cursor. Designed to be used per project or copied to `~/.cursor` for global use across projects.
+A collection of **skills**, **agents**, **rules**, and **commands** for Cursor and Claude Code. Designed to be used per project or synced to `~/.cursor` / `~/.claude` for global use across projects.
 
 ## Contents
 
@@ -20,31 +20,57 @@ A collection of Cursor **skills**, **agents**, **rules**, and **commands** for b
 │   └── update-specs.mdc  — Keep specs up to date after implementation
 └── commands/
     └── commit-msg.md     — Commit message formatting
+
+.claude/
+├── CLAUDE.md             — Global workflow and stack guidelines
+├── settings_example.json — Permission/settings template
+├── agents/
+│   ├── codex-coder.md    — Coding delegation via Codex CLI
+│   ├── researcher.md     — Research & evaluation specialist
+│   └── verifier.md       — QA verification specialist
+└── skills/
+    ├── code-review-codex/ — Code review skill
+    ├── commit/            — Commit message formatting
+    ├── python-dev/        — FastAPI, SQLAlchemy, Pydantic, pytest
+    ├── react-dev/         — React 18+ development
+    ├── spec-review-codex/ — Spec review skill
+    └── ui-design/         — Web UI design with Tailwind CSS
 ```
 
 ## Install
 
 ### Copy to a specific project
 
-Copy the items you want into your project's `.cursor/` directory:
+Copy the items you want into your project's `.cursor/` or `.claude/` directory:
 
 ```sh
 cp -r .cursor/skills/ui-design  /your/project/.cursor/skills/
-cp -r .cursor/agents             /your/project/.cursor/
+cp -r .claude/agents             /your/project/.claude/
 ```
 
-Restart Cursor to re-index.
+Restart Cursor / Claude Code to re-index.
 
-### Copy everything globally (`~/.cursor`)
+### Sync globally
 
-Use the included script to copy all tools to `~/.cursor` for use across all projects:
+Use the included scripts to sync tools to `~/.cursor` or `~/.claude` for use across all projects:
+
+**Cursor** (`scripts/sync_cursor.sh`):
 
 ```sh
-./copy-to-global.sh           # copy everything
-./copy-to-global.sh --skills  # copy only skills
-./copy-to-global.sh --agents  # copy only agents
-./copy-to-global.sh --rules   # copy only rules
-./copy-to-global.sh --commands # copy only commands
+scripts/sync_cursor.sh              # sync everything
+scripts/sync_cursor.sh --agents     # sync only agents
+scripts/sync_cursor.sh --skills     # sync only skills
+scripts/sync_cursor.sh --rules      # sync only rules
+scripts/sync_cursor.sh --commands   # sync only commands
+```
+
+**Claude Code** (`scripts/sync_claude.sh`):
+
+```sh
+scripts/sync_claude.sh              # sync everything
+scripts/sync_claude.sh --agents     # sync only agents
+scripts/sync_claude.sh --skills     # sync only skills
+scripts/sync_claude.sh --claude-md  # sync only CLAUDE.md
 ```
 
 ## Skills
@@ -66,6 +92,7 @@ MIT — see `LICENSE.txt`.
 ## References
 
 - Cursor Skills docs: `https://cursor.com/docs/context/skills`
+- Claude Code docs: `https://docs.anthropic.com/en/docs/claude-code`
 - Tailwind / maintainability:
   - `https://evilmartians.com/chronicles/5-best-practices-for-preventing-chaos-in-tailwind-css`
   - `https://github.com/tailwindlabs/prettier-plugin-tailwindcss`
