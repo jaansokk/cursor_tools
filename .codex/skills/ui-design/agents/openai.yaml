@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Design"
+  short_description: "Craft distinctive Tailwind-based web interfaces"
+  default_prompt: "Use $ui-design to shape and implement a distinctive web UI with strong typography, contrast, Tailwind patterns, and a non-generic visual direction."
