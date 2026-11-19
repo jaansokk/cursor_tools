@@ -7,6 +7,9 @@ A comprehensive checklist for creating user-centered, accessible, performant web
 ## User-Centric Design
 
 ### Before Design
+- [ ] Flat or flatty treatment explicitly chosen or inherited from the approved design system
+- [ ] Gradient policy and placement explicitly chosen or inherited
+- [ ] Shadow policy and placement explicitly chosen or inherited
 - [ ] Defined target user personas based on real data
 - [ ] Identified primary user goals (what they want to accomplish)
 - [ ] Mapped user journey from entry to conversion
@@ -121,7 +124,7 @@ A comprehensive checklist for creating user-centered, accessible, performant web
 ### Consistency
 - [ ] Consistent spacing system throughout
 - [ ] Unified border radius approach
-- [ ] Single depth strategy (borders OR shadows)
+- [ ] Depth treatment follows approved flat/flatty, gradient, and shadow choices; spacing, borders, surface tones, and shadows are combined only with purpose
 - [ ] Consistent icon style
 - [ ] Reusable component patterns
 

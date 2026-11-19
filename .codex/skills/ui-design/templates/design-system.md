@@ -14,6 +14,14 @@ Use this template to document your project's design system. Copy to your project
 
 **Inspirations:** [2-3 reference products or visual styles]
 
+**Surface treatment:** [User-approved flat / flatty]
+
+**Gradients:** [User-approved none / subtle lighting / expressive; permitted placements]
+
+**Shadows:** [User-approved none / subtle functional / pronounced; permitted placements]
+
+Ask about any missing choices before choosing these treatments. Reuse approved answers for follow-up work.
+
 ---
 
 ## Color Tokens
@@ -162,16 +170,18 @@ borderRadius: {
 
 ## Depth Strategy
 
-**Approach:** [ ] Borders-only  [ ] Subtle shadows  [ ] Layered shadows
+**Approach:** [ ] Spacing/alignment only  [ ] Borders  [ ] Surface tone changes  [ ] Subtle shadows  [ ] Layered shadows
+
+Use only treatments allowed by the approved surface, gradient, and shadow choices above. Light or white cards on darker or tinted backgrounds are valid for flatty elevation. The examples below are illustrative, not prescribed effects.
 
 ### Elevation Levels
 
 | Level | Usage | Implementation |
 |-------|-------|----------------|
 | 0 | Base canvas | `bg-surface-base` |
-| 1 | Cards, panels | `bg-surface-elevated` / `shadow-sm` |
-| 2 | Dropdowns | `bg-surface-overlay` / `shadow-lg` |
-| 3 | Modals | `bg-surface-overlay` / `shadow-xl` |
+| 1 | Cards, panels | `bg-surface-elevated`; optional approved shadow |
+| 2 | Dropdowns | `bg-surface-overlay`; optional approved shadow |
+| 3 | Modals | `bg-surface-overlay`; optional approved shadow |
 
 ### Border Weights
 

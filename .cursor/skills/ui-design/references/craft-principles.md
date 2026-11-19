@@ -6,6 +6,8 @@ These apply regardless of design direction. This is the quality floor.
 
 ## Surface & Token Architecture
 
+Follow the [project design choices](../SKILL.md#project-design-choices) before applying any surface examples. Flat/flatty treatment, gradients, and shadows are explicit project choices. Examples below are conditional on those choices; do not introduce declined effects.
+
 Professional interfaces don't pick colors randomly—they build systems. Understanding this architecture is the difference between "looks okay" and "feels like a real product."
 
 ### The Primitive Foundation
@@ -22,7 +24,7 @@ Don't invent new colors. Map everything to these primitives.
 
 ### Surface Elevation Hierarchy
 
-Surfaces stack. A dropdown sits above a card which sits above the page. Build a numbered system:
+When the chosen treatment uses elevation, surfaces stack: a dropdown sits above a card which sits above the page. Build a consistent system for the levels the interface needs. Flat layouts can communicate grouping through spacing and alignment without a simulated elevation stack:
 
 ```
 Level 0: Base background (the app canvas)
@@ -32,7 +34,7 @@ Level 3: Nested dropdowns, stacked overlays
 Level 4: Highest elevation (rare)
 ```
 
-In dark mode, higher elevation = slightly lighter. In light mode, higher elevation = slightly lighter or uses shadow.
+In flatty UI, lighter raised surfaces and subtle lighting can communicate elevation. Light or white cards on a darker or tinted canvas are valid. Apply shadows only when approved, consistently with the lighting model. Flat UI does not need simulated lighting or shadows.
 
 ### The Contrast Principle
 
@@ -83,7 +85,7 @@ This is where most AI-generated interfaces fail — in both directions. Study Ve
 
 - **Too subtle:** `border-white/5`, `border-black/5` are invisible on most displays. Never use them.
 - **Too subtle (surfaces):** `bg-slate-900/50` on `bg-slate-950` is nearly invisible. Use `/70` minimum.
-- **Too dramatic:** Going from `slate-950` to `slate-700` in one step. Build graduated levels.
+- **Unintentional jumps:** Build graduated elevation levels within the chosen tonal stack. Deliberately contrasting light or white cards on a darker canvas are valid and do not need intermediate tones.
 - **Using raw opacity on named colors in light mode:** `border-black/10` is less predictable than `border-stone-200`. Prefer named palette steps in light mode.
 - **Different hues for different surfaces:** Keep surfaces on the same hue axis.
 - **Muted text that fails WCAG:** `stone-400` on `white` fails AA (3.6:1). `stone-500` is the floor (4.6:1).
@@ -226,7 +228,7 @@ Consistency matters more than the specific value. Don't mix sharp and soft rando
 
 ## Depth & Elevation Strategy
 
-Pick a primary strategy and use it consistently. Combining border + shadow (e.g. `border-stone-200/60 shadow-sm`) is fine when both serve a purpose — border defines the edge, shadow provides lift. What to avoid is *random* mixing where some cards have borders, others have shadows, others have both, with no logic.
+Use the user-approved flat/flatty treatment and gradient/shadow policies. Spacing-only grouping is valid for a flat design. Pick a primary strategy and use it consistently. Combining border + shadow (e.g. `border-stone-200/60 shadow-sm`) is fine when both serve a purpose — border defines the edge, shadow provides lift. What to avoid is *random* mixing where some cards have borders, others have shadows, others have both, with no logic.
 
 ### Borders-Only (Flat)
 

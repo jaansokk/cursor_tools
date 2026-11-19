@@ -61,6 +61,22 @@ Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/n
 
 If you cannot answer these with specifics, stop. Ask the user. Do not guess. Do not default.
 
+## Project Design Choices
+
+Choose the aesthetic explicitly for each project. Originality and a coherent signature remain strong priorities within that direction.
+
+Before proposing or implementing a new visual direction, ask the user about all three choices below unless their instructions or the approved project design system already answer them. Ask the missing questions together and wait for the answers before applying these treatments. Do not choose a default aesthetic.
+
+- **Flat or flatty?** Flat uses simple surfaces without simulated elevation. Flatty keeps simple shapes and uses subtle depth cues, such as lighter raised surfaces, edge treatments, or shadows.
+- **Gradients?** None, subtle lighting gradients, or expressive/decorative gradients? Confirm where they may be used.
+- **Shadows?** None, subtle functional elevation, or more pronounced/expressive shadows? Confirm where they may be used.
+
+Treat these as separate decisions: choosing flatty does not automatically authorize gradients or shadows. Preserve established typography and approved project choices; ask again only when an answer is missing or the user is changing direction. Record these choices when creating or updating design-system documentation.
+
+For flatty elevation, light or white cards on a darker or tinted background are valid. Keep the lighting and elevation relationships consistent. For flat designs, establish grouping through spacing, alignment, and deliberate separation without adding simulated depth by default.
+
+Use the [article references](#article-references) to guide hierarchy, grouping, purposeful color, and depth choices. Their numerical suggestions are starting heuristics, not universal requirements.
+
 ## Every Choice Must Be A Choice
 
 For every decision, you must be able to explain WHY.
@@ -76,6 +92,8 @@ If your answer is "it's common" or "it's clean" or "it works"—you haven't chos
 **The test:** If you swapped your choices for the most common alternatives and the design didn't feel meaningfully different, you never made real choices.
 
 ## Sameness Is Failure
+
+Apply the originality and font-selection constraints when creating a new visual identity. Preserve approved identities and typography when extending an established product.
 
 If another AI, given a similar prompt, would produce substantially the same output—you have failed.
 
@@ -109,6 +127,7 @@ Your direction must explicitly reference:
 - Colors from your color world exploration
 - Your signature element
 - What replaces each default
+- The confirmed flat/flatty treatment, gradient policy, and shadow policy
 
 **The test:** Remove the product name. Could someone identify what this is for? If not, it's generic.
 
@@ -145,6 +164,8 @@ Run these against your output before presenting:
 # Craft Foundations
 
 ## Layering & Contrast
+
+Apply the guidance below within the user's confirmed flat/flatty, gradient, and shadow choices. The examples illustrate possible treatments; they do not authorize shadows or gradients the user has declined. A flat design can establish clear structure through spacing and alignment without simulated elevation. A flatty design can use lighter raised surfaces over darker or tinted backgrounds, including white cards.
 
 This is the backbone of craft. Study Vercel, Supabase, Linear — but do not confuse subtlety with invisibility.
 
@@ -236,7 +257,7 @@ The "whisper-quiet" philosophy applies to marketing sites and reading apps. Data
 
 ## Font Alternatives
 
-The skill says no Inter, no Roboto. Here are distinctive alternatives by category:
+For new visual identities, avoid Inter and Roboto and choose a distinctive typeface deliberately. Preserve approved fonts, including these, in established design systems. Here are alternatives by category:
 
 **Geometric / Clean:** Satoshi, General Sans, Outfit, Plus Jakarta Sans, Switzer
 **Humanist / Warm:** Manrope, Source Sans 3, Nunito Sans, Atkinson Hyperlegible
@@ -478,6 +499,10 @@ Color world: [5+ colors that exist in this domain]
 Signature: [one element unique to this product]
 Rejecting: [default 1] → [alternative], [default 2] → [alternative]
 
+Surface treatment: [confirmed flat or flatty]
+Gradients: [confirmed policy and placement]
+Shadows: [confirmed policy and placement]
+
 Direction: [approach that connects to the above]"
 
 Does that direction feel right?
@@ -485,9 +510,11 @@ Does that direction feel right?
 
 ## If Project Has Design System
 
-Read the design system file and apply. Decisions are made.
+Read the design system file and preserve its approved decisions. Ask about flat/flatty treatment, gradients, or shadows only when the relevant choice is missing; reuse existing answers for follow-up work.
 
 ## If No Design System
+
+Before the steps below, resolve the missing [project design choices](#project-design-choices).
 
 1. Explore domain — Produce all four required outputs
 2. Propose — Direction must reference all four
@@ -522,12 +549,12 @@ If yes, create a design system file with:
 - **Cliché color schemes:** Purple gradients on white, generic blue CTAs
 - **Invisible borders:** `border-white/5`, `border-black/5` are invisible on most displays. The floor is `/8` dark mode, `stone-200/60` light mode
 - **Invisible elevation:** If cards don't visually separate from canvas in a 50%-zoom screenshot, contrast is too low
-- **Dramatic surface jumps:** Elevation changes should be calm but perceptible — not whisper-quiet to the point of vanishing
+- **Unintentional surface jumps:** Keep elevation steps within the chosen tonal stack deliberate and perceptible. Intentionally contrasting light cards on a dark or tinted canvas are valid.
 - **Inconsistent spacing:** Random Tailwind values like `p-[13px] mt-[7px]`
 - **Random depth mixing:** Combining border + shadow intentionally is fine. Randomly switching between borders-only, shadows-only, and combined across similar elements is not
 - **Missing states:** hover, focus, disabled, loading, error
 - **Large radius on small elements**
-- **Pure white cards on colored backgrounds**
+- **Unapproved depth effects:** Do not add gradients or shadows outside the confirmed project choices. Light or white cards on darker or tinted backgrounds are valid when they support the chosen surface treatment.
 - **Multiple accent colors:** Dilutes focus
 - **Overusing @apply:** Defeats Tailwind's purpose
 - **Muted text that fails WCAG:** `stone-400` on `white` fails AA. `stone-500` is the floor for muted text on white backgrounds
@@ -548,3 +575,16 @@ For more detail on specific topics:
 - `/ui-design:audit` — Check code against design system
 - `/ui-design:extract` — Extract patterns from existing code
 - `/ui-design:system` — Generate design system documentation
+
+---
+
+# Article References
+
+Consult the relevant source when choosing or reviewing hierarchy, grouping, color, or depth. Apply the principles within the user's approved visual direction to improve the execution of its originality and signature.
+
+- [7 Practical Tips for Cheating at Design — Adam Wathan & Steve Schoger](https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886): use weight and tonal contrast for hierarchy, spacing to reduce unnecessary borders, and different emphasis for primary, secondary, and tertiary actions. Especially sections 1, 4, and 7.
+- [Proximity Principle in Visual Design — Aurora Harley, Nielsen Norman Group](https://www.nngroup.com/articles/gestalt-proximity/): keep related elements closer than unrelated elements; attach headings and labels to their content, and preserve grouping across responsive layouts.
+- [7 Rules for Creating Gorgeous UI, Part 1 — Erik Kennedy](https://www.learnui.design/blog/7-rules-for-creating-gorgeous-ui-part-1.html): Rule 1 explains flatty UI, subtle lighting, and brighter raised surfaces; Rule 2 establishes structure in grayscale before purposeful color; Rule 3 explores whitespace. Use the confirmed flat/flatty, gradient, and shadow choices.
+- [Quick Start Guide: Visual Design — Anthony Hobday](https://anthonyhobday.com/sideprojects/quickstart/visualdesign): practical guidance on alignment, spacing scales, nested groups, hierarchy, and restrained palettes. Use only the hierarchy distinctions the content needs.
+- [Good Visual Design, Explained — Kelley Gordon, Nielsen Norman Group](https://www.nngroup.com/articles/good-visual-design/): annotated real-site examples show how grids, typography, intentional palettes, and useful imagery work together. Inspect the specific decisions behind a reference design.
+- [Whitespace — Mark Boulton, A List Apart](https://alistapart.com/article/whitespace/): distinguish small typographic spaces from larger compositional gaps; use space itself to emphasize and structure content.
