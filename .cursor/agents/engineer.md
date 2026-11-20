@@ -22,7 +22,7 @@ Select and follow the skill(s) that match the work:
 |---|---|---|
 | React components, hooks, state, frontend tests | React Development | `.cursor/skills/react-dev/SKILL.md` |
 | Python endpoints, models, migrations, backend tests | Python Development | `.cursor/skills/python-dev/SKILL.md` |
-| UI styling, design quality, Tailwind patterns | UI Design | `.cursor/skills/ui-design/SKILL.md` |
+| UI hierarchy, grouping, readability, visual design | UI Design | `.cursor/skills/ui-design/SKILL.md` |
 
 Since design work requires large context, report back to the orchestrator to use a separate sub-agent for design work.
 

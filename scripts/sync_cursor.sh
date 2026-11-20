@@ -42,8 +42,12 @@ copy_skills() {
   for d in "${CURSOR_DIR}"/skills/*; do
     [ -d "$d" ] || continue
     name=$(basename "$d")
-    # Use dir path without trailing slash so cp copies the directory itself, not its contents
-    cp -r "${CURSOR_DIR}/skills/${name}" "${SKILLS_GLOBAL}/"
+    if [ "$name" = "ui-design" ]; then
+      python3 "${SCRIPT_DIR}/scripts/install_ui_design.py" "${SKILLS_GLOBAL}/ui-design"
+    else
+      # Use dir path without trailing slash so cp copies the directory itself, not its contents
+      cp -r "${CURSOR_DIR}/skills/${name}" "${SKILLS_GLOBAL}/"
+    fi
     echo "  -> ${SKILLS_GLOBAL}/${name}/"
   done
 }

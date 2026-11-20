@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Design"
+  short_description: "Design clear, usable interfaces from principles"
+  default_prompt: "Use $ui-design to improve this interface through clear hierarchy, Gestalt grouping, comfortable typography, and purposeful visual choices."
