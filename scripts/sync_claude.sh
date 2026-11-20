@@ -34,7 +34,11 @@ sync_skills() {
   for d in "${CLAUDE_DIR}"/skills/*; do
     [ -d "$d" ] || continue
     name=$(basename "$d")
-    cp -r "${CLAUDE_DIR}/skills/${name}" "${GLOBAL_DIR}/skills/"
+    if [ "$name" = "ui-design" ]; then
+      python3 "${SCRIPT_DIR}/scripts/install_ui_design.py" "${GLOBAL_DIR}/skills/ui-design"
+    else
+      cp -r "${CLAUDE_DIR}/skills/${name}" "${GLOBAL_DIR}/skills/"
+    fi
     echo "  -> ${GLOBAL_DIR}/skills/${name}/"
   done
 }
